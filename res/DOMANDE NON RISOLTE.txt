@@ -1,0 +1,3 @@
+1- Come evitare bug quando si cambia direzione rapidamente
+2- Metodo corretto di passare le dimensioni della nostra texture all'entità physics per le collisioni
+	(Quello attuale sono variabili pubbliche nelle classi che possono creare confusione a lungo termine)
