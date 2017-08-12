@@ -9,6 +9,7 @@ public class MouseInput implements MouseListener {
 	//variabili per dimensioni bottoni
 	private Rectangle playbutton;
 	private Rectangle quitbutton;
+	@SuppressWarnings("unused")
 	private Rectangle helpbutton;
 	
 	//Costruttore

@@ -9,6 +9,7 @@ public class Bullet extends GameObject implements EntityFriendly {
 	
 	//creiamo e inizializziamo le variabili
 	private Textures tex;
+	@SuppressWarnings("unused")
 	private Game game;
 	
 	
