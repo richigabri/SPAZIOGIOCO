@@ -14,8 +14,8 @@ public class ScoreManager {
     private ArrayList<Score> scores;
 
     // IMPORTANTE : questo è il file dove verranno salvati i punteggi più alti
-    //usiamo un file binario perchè altrimenti si può modificare troppo facilmente (secondo Stack Overflow)
-    private static final String HIGHSCORE_FILE = "scores.dat";
+    //usiamo un file di testo per maggiore semplicità nel visualizzare i risultati a occhio nudo
+    private static final String HIGHSCORE_FILE = "scores.txt";
 
     //Inizializzo input e output per lavorare con il file dei punteggi
     ObjectOutputStream outputStream = null;
