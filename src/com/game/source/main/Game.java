@@ -11,6 +11,7 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+
 import com.game.source.main.classes.EntityEnemy;
 import com.game.source.main.classes.EntityFriendly;
 
@@ -22,6 +23,7 @@ public class Game extends Canvas implements Runnable {
 	public static final int HEIGHT = WIDTH/12*9;
 	public static final int SCALE = 2;
 	public final String TITLE = "SPACE SHOOTER GABRI-RICHI";
+	
 	
 	private boolean running = false;
 	private Thread thread;
@@ -41,25 +43,38 @@ public class Game extends Canvas implements Runnable {
 	private int enemy_killed = 0;
 	
 	private Player p;
+	
 	private Controller c;
 	private Textures tex;
 	private Menu menu;
+	private GameOver gameover;
+	
 	
 	//elenco di tutti gli elementi buoni e cattivi 
 	public LinkedList<EntityFriendly> ef;
 	public LinkedList<EntityEnemy> ee;
 	
-	//Barra dei punti vita della nostra nave, da lavorarci per aggiungere le vite
-	public static int health = 200;
 	
-	/* Creazione del menù : vari stati in cui mi trovo
-	 * Nel nostro caso usiamo lo stato GAME quando sono in gioco e lo stato MENU quando sono nel menù
+	
+
+	//Barra dei punti vita della nostra nave, da lavorarci per aggiungere le vite
+	public static int health = 20; //Da rimettere a 200 (lho modificato per arrivare piu voloce a gameover)
+
+
+	private static int score=0; //punteggio
+
+
+
+	/* Creazione del menï¿½ : vari stati in cui mi trovo
+	 * Nel nostro caso usiamo lo stato GAME quando sono in gioco e lo stato MENU quando sono nel menï¿½
 	 */
 	public static enum STATE{
 		MENU,
-		GAME	
+		GAME,
+		GAMEOVER
+		
 	};
-	//usiamo State per capire in quale situazione siamo, la inizializziamo al menù perchè il gioco all'avvio mostrerà il menù
+	//usiamo State per capire in quale situazione siamo, la inizializziamo al menï¿½ perchï¿½ il gioco all'avvio mostrerï¿½ il menï¿½
 	public static STATE State = STATE.MENU;
 	
 	public void init() {
@@ -71,14 +86,16 @@ public class Game extends Canvas implements Runnable {
 		//Inizializzo la posizione
 		this.addKeyListener(new KeyInput(this));
 		
-		//carichiamo le texture PRIMA della chiamata a player sennò non andrebbe
+		//carichiamo le texture PRIMA della chiamata a player sennï¿½ non andrebbe
 		tex = new Textures(this);
 		c = new Controller(this, tex);
 		p = new Player(200, 200, tex, this, c);
 		menu = new Menu();
-		
-		//passo le dimensioni del menù a MouseListener
+		gameover=new GameOver();
+
+		//passo le dimensioni del menï¿½ a MouseListener
 		this.addMouseListener(new MouseInput(menu));
+		this.addMouseListener(new MouseInput2(gameover));
 		
 		//Inizializzo le liste di amici e nemici
 		ef = c.getEntityFriendly();
@@ -147,12 +164,15 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 	
-	//tutto ciò che viene aggiornato
+	//tutto ciï¿½ che viene aggiornato
 	private void tick() {
 		//eseguo le azioni SOLO SE sono nello stato Game
 		if (State == STATE.GAME) {
 			p.tick();
 			c.tick();
+
+			
+			
 		}
 		//se finiscono i nemici passo alla seconda ondata
 		if(enemy_killed >= enemy_count) {
@@ -160,9 +180,22 @@ public class Game extends Canvas implements Runnable {
 			enemy_killed = 0;	//reseettiamo il numero di kill
 			c.createEnemy(enemy_count);	//creiamo i nostri nuovi nemici
 		}
+
+		//quando la vita finisce creare il nemu nel quale si vede il punteggio finale e ritornare al menu principale o uscire dal gioco
+
+		 if (health==0){
+			State=STATE.GAMEOVER;
+			//ripristino i dati (vita- Score e Nemici)
+			 // PROBLEMA NON SO COME FAR RINIZIARE IL GIOCO
+			 //SPECIFICO: IL GIOCO NON RIPARTE DALL'INIZIO MA DA DOVE SI ERA FERMATI , IL PUNTEGGIO NON SO DOVE ASSEZARLO
+
+			health=20;
+		}
+		
+	
 	}
 	
-	//tutto ciò che viene renderizzato
+	//tutto ciï¿½ che viene renderizzato
 	private void render() {
 		//gestisce il buffering
 		BufferStrategy bs = this.getBufferStrategy();
@@ -173,11 +206,13 @@ public class Game extends Canvas implements Runnable {
 		
 		//imposta il buffer per disegnare
 		Graphics g = bs.getDrawGraphics();
+		
 		//////////////////////////////////////////
 		
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), this); //schermo nero di sfondo
 		
 		g.drawImage(background, 0, 0, null);
+		
 		
 		//Come prima, renderizzo SOLO se sono nello stato GAME
 		if(State == STATE.GAME) {
@@ -193,15 +228,26 @@ public class Game extends Canvas implements Runnable {
 			//bordino per distinguerla dallo sfondo
 			g.setColor(Color.white);
 			g.drawRect(5, 5, health, 30);
+			//visualizzo lo score
+			g.drawString("SCORE: "+score ,270, 30);
+			
+			
+			
+			
 			
 		} 
 		else if (State == STATE.MENU) {
 			//qui disegno e creo il mio menu
 			menu.render(g);
 		}
+		if (State==STATE.GAMEOVER){
+			//creo il menu game over **da rivedere**
+			gameover.render(g);
+		}
+		
 		
 		//////////////////////////////////////////
-		//TUTTO ciò tra i commenti verrà resettato una volta qui
+		//TUTTO ciï¿½ tra i commenti verrï¿½ resettato una volta qui
 		g.dispose();
 		bs.show();
 	}
@@ -224,8 +270,9 @@ public class Game extends Canvas implements Runnable {
 				p.setVelY(5);
 			}
 			if (key == KeyEvent.VK_SPACE && !is_shooting) {
+				Sounds.playerShoot.play();
 				is_shooting = true;
-				c.addEntity(new Bullet(p.getX(), p.getY(), tex, this));
+				c.addEntity(new Bullet(p.getX()+46, p.getY()-25, tex, this));//la navicella spara centrale
 			} 
 		}
 	}
@@ -269,6 +316,7 @@ public class Game extends Canvas implements Runnable {
 		frame.setVisible(true);
 		
 		game.start();
+		//Sounds.gameMusic.play(); //colonna sonora
 	}
 	
 	//GETTERS & SETTERS
@@ -288,6 +336,20 @@ public class Game extends Canvas implements Runnable {
 	public void setEnemy_killed(int enemy_killed) {
 		this.enemy_killed = enemy_killed;
 	}
+	
+	public static int getScore() {
+		return score;
+	}
+
+	public  void setScore(int score) {
+		Game.score = score;
+	}
+
+	//lho usato nella funzione MouseInput2 per mettere a zero lo score dopo che si ha ripremuto il pulsante rigioca
+	 public static int scoreClean(){
+	    score=0;
+	    return score;
+     }
 	
 	/*	PROVO A CANCELLARE PER AVERE L'IMMAGINE DELL'OGGETTO DENTRO OGNI CLASSE
 	public BufferedImage getSpriteSheet() {

@@ -15,7 +15,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 	//game e controller per controllare se il nemico viene colpito
 	private Game game;
 	private Controller c;
-	
+	int score=0;
 	//variabile speed per la velocità dei nemici casuale
 	private int speed = r.nextInt(3)+ 1;
 	
@@ -43,7 +43,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 			x = r.nextInt(Game.WIDTH * Game.SCALE - 40);	
 		}
 		
-		
+	
 		for (int i = 0; i < game.ef.size(); i++) {
 			
 			//Creo una entità temporanea e controllo che non collida col nemico
@@ -51,12 +51,22 @@ public class Enemy extends GameObject implements EntityEnemy{
 			
 			//se il nemico tocca un friendly (proietile o nave) allora lo rimuovo
 			if (Physics.Collision(this, tempef)) {
+				
+					Sounds.playerDeath.play(); //suono quando il nemico muore
 				//RIMUOVO sia il proiettile che il nemico se collidono
 				c.removeEntity(tempef);
 				c.removeEntity(this);
 				//AGGIORNO le variabili di conseguenza
 				game.setEnemy_killed(game.getEnemy_killed() + 1);
 			} 
+					
+			//aggiorno lo score quando un nemico viene colpito dal proiettile
+			if (Physics.Collision(this, tempef)){
+				
+				game.setScore(Game.getScore()+50);
+			}
+		
+			
 		}
 		
 	}

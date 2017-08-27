@@ -8,13 +8,13 @@ import com.game.source.main.classes.EntityFriendly;
 
 public class Player extends GameObject implements EntityFriendly{
 	
-	//assi direzionali e velocità
+	//assi direzionali e velocitï¿½
 	private double velX=0;
 	private double velY=0;
 	private Textures tex;
-	
 	private Game game;
 	private Controller controller;
+
 
 	public Player(double x, double y, Textures tex, Game game, Controller controller) {
 	//costruttore
@@ -25,6 +25,7 @@ public class Player extends GameObject implements EntityFriendly{
 	}
 	
 	public void tick() {
+
 		x += velX;
 		y += velY;
 		
@@ -48,8 +49,12 @@ public class Player extends GameObject implements EntityFriendly{
 			EntityEnemy tempee = game.ee.get(i);
 			//se collidono rimuovo il nemico e abbasso la vita
 			if(Physics.Collision(this, tempee)) {
+				Sounds.playerDeath.play();//suono quando la nave colpisce i nemici
 				controller.removeEntity(tempee);
 				Game.health -= 10;
+				
+
+							
 				//aumento il contatore di nemici uccidi
 				game.setEnemy_killed(game.getEnemy_killed() + 1);
 			}

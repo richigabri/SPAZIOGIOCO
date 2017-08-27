@@ -1,6 +1,7 @@
 package com.game.source.main;
 
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -9,16 +10,18 @@ public class MouseInput implements MouseListener {
 	//variabili per dimensioni bottoni
 	private Rectangle playbutton;
 	private Rectangle quitbutton;
-	@SuppressWarnings("unused")
-	private Rectangle helpbutton;
+    private Rectangle helpbutton;
+
 	
 	//Costruttore
 	public MouseInput(Menu menu) {
 		this.playbutton = menu.getPlaybutton();
 		this.helpbutton = menu.getHelpbutton();
 		this.quitbutton = menu.getQuitbutton();
+
 	}
-	
+
+
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
@@ -47,7 +50,7 @@ public class MouseInput implements MouseListener {
 		public Rectangle quitbutton = new Rectangle(Game.WIDTH/2 + 120, 350, 100, 50);
 		*/
 		
-		//Se mi trovo nel menù controllo i bottoni da premere
+		//Se mi trovo nel menï¿½ controllo i bottoni da premere
 		if (Game.State == Game.STATE.MENU) {
 			//Clicco il tasto Gioca SE SONO ALL'INTERNO DELLE SUE COORDINATE X E Y
 			if (mx >= playbutton.getX() && mx <= (playbutton.getWidth() + playbutton.getX())) {
@@ -64,10 +67,21 @@ public class MouseInput implements MouseListener {
 					System.exit(1);
 				}
 			}
+			//Clicco il tasto Aiuto SE SONO ALL'INTERNO DELLE SUE COORDINATE X E Y
+			if (mx >= helpbutton.getX() && mx <= (helpbutton.getWidth() + helpbutton.getX())) {
+				if (my >= helpbutton.getY() && my <= (helpbutton.getY() + helpbutton.getHeight())) {
+					//aggungiamo delle informazioni e premiamo il bottone
+                    JOptionPane.showMessageDialog(null,"Distruggi tutti gli alieni! \n Muoviti con le frecce o WASD \n Spara con la barra spaziatrice \n SCALA LA CLASSIFICA!","INFORMAZIONI",3);
+				}
+			}
 		}
+
+
 	}
 
-	public void mouseReleased(MouseEvent arg0) {
+
+
+    public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
