@@ -39,8 +39,9 @@ public class Game extends Canvas implements Runnable {
 	private boolean is_shooting = false;
 	
 	//numero nemici ondata e morti, le inizializziamo alla prima ondata
-	private int enemy_count = 1;
+	private int enemy_count = 0;
 	private int enemy_killed = 0;
+	private int wave = 0;
 	
 	private Player p;
 	
@@ -58,7 +59,7 @@ public class Game extends Canvas implements Runnable {
 	
 
 	//Barra dei punti vita della nostra nave, da lavorarci per aggiungere le vite
-	public static int health = 20; //Da rimettere a 200 (lho modificato per arrivare piu voloce a gameover)
+	public static int health = 200; //punti vita del giocatore
 
 
 	private static int score=0; //punteggio
@@ -66,7 +67,7 @@ public class Game extends Canvas implements Runnable {
 
 
 	/* Creazione del men� : vari stati in cui mi trovo
-	 * Nel nostro caso usiamo lo stato GAME quando sono in gioco e lo stato MENU quando sono nel men�
+	 * Nel nostro caso usiamo lo stato GAME quando sono in gioco e lo stato MENU quando sono nel men�, infine gameover quando ho perso
 	 */
 	public static enum STATE{
 		MENU,
@@ -89,7 +90,7 @@ public class Game extends Canvas implements Runnable {
 		//carichiamo le texture PRIMA della chiamata a player senn� non andrebbe
 		tex = new Textures(this);
 		c = new Controller(this, tex);
-		p = new Player(200, 200, tex, this, c);
+		p = new Player(300, 400, tex, this, c);
 		menu = new Menu();
 		gameover=new GameOver();
 
@@ -176,6 +177,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		//se finiscono i nemici passo alla seconda ondata
 		if(enemy_killed >= enemy_count) {
+			wave += 1;	//Aumento l'ondata per indicare che ho superato il livello
 			enemy_count += 2;	//nel nostro gioco aggiungiamo 2 nemici ad ondata
 			enemy_killed = 0;	//reseettiamo il numero di kill
 			c.createEnemy(enemy_count);	//creiamo i nostri nuovi nemici
@@ -184,12 +186,8 @@ public class Game extends Canvas implements Runnable {
 		//quando la vita finisce creare il nemu nel quale si vede il punteggio finale e ritornare al menu principale o uscire dal gioco
 
 		 if (health==0){
+			 this.Reset();
 			State=STATE.GAMEOVER;
-			//ripristino i dati (vita- Score e Nemici)
-			 // PROBLEMA NON SO COME FAR RINIZIARE IL GIOCO
-			 //SPECIFICO: IL GIOCO NON RIPARTE DALL'INIZIO MA DA DOVE SI ERA FERMATI , IL PUNTEGGIO NON SO DOVE ASSEZARLO
-
-			health=20;
 		}
 		
 	
@@ -230,8 +228,9 @@ public class Game extends Canvas implements Runnable {
 			g.drawRect(5, 5, health, 30);
 			//visualizzo lo score
 			g.drawString("SCORE: "+score ,270, 30);
-			
-			
+			//Visualizzo ondate e nemici rimasti
+			g.drawString("ONDATA: "+wave ,400, 30);
+			g.drawString("NEMICI RIMASTI: "+(enemy_count - enemy_killed) ,500, 30);
 			
 			
 			
@@ -316,7 +315,7 @@ public class Game extends Canvas implements Runnable {
 		frame.setVisible(true);
 		
 		game.start();
-		//Sounds.gameMusic.play(); //colonna sonora
+		Sounds.gameMusic.play(); //colonna sonora
 	}
 	
 	//GETTERS & SETTERS
@@ -344,13 +343,32 @@ public class Game extends Canvas implements Runnable {
 	public  void setScore(int score) {
 		Game.score = score;
 	}
-
-	//lho usato nella funzione MouseInput2 per mettere a zero lo score dopo che si ha ripremuto il pulsante rigioca
-	 public static int scoreClean(){
-	    score=0;
-	    return score;
-     }
 	
+	 public int getWave() {
+		return wave;
+	}
+
+	public void setWave(int wave) {
+		this.wave = wave;
+	}
+
+	//Questo metodo mi riporta alle condizioni iniziali della mia prima ondata
+	 public void Reset() {
+		 //resetto vita e posizione
+		 health = 200;
+		 p.setVelX(0);
+		 p.setVelY(0);
+		 p.setX(300);
+		 p.setY(400);
+		 //resetto highscore e ondate
+		 this.setScore(0);
+		 this.setEnemy_count(0);
+		 this.setEnemy_killed(0);
+		 this.setWave(0);
+		 //pulisco il campo di battaglia dai nemici
+		 ee.clear();
+	 }
+	 
 	/*	PROVO A CANCELLARE PER AVERE L'IMMAGINE DELL'OGGETTO DENTRO OGNI CLASSE
 	public BufferedImage getSpriteSheet() {
 		return spriteSheet;
