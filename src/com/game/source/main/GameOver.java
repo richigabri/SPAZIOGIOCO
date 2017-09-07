@@ -3,6 +3,7 @@ package com.game.source.main;
 import java.awt.*;
 
 import static com.game.source.main.Game.getScore;
+import static com.game.source.main.Game.getScore2;
 
 public class GameOver extends Menu {
 
@@ -33,7 +34,7 @@ public class GameOver extends Menu {
         // riempio le voci del mio men� modificando le x e le y perch� andrebbe a scrivere nell'angolo in alto a destra
         g.drawString("Rigioca", replaybutton.x + 11, replaybutton.y +35);
         g.drawString("Esci", quitbuttontomenu.x + 19, quitbuttontomenu.y + 35);
-        g.drawString("IL TUO PUNTEGGIO E' : "+ getScore(),140,300);
+        g.drawString("IL TUO PUNTEGGIO E' : "+  getScore2(),140,300);
 
         //disegno i bordi delle voci del men�
         g2d.draw(replaybutton);
@@ -56,4 +57,6 @@ public class GameOver extends Menu {
     public void setQuitbuttontomenu(Rectangle quitbuttontomenu) {
         this.quitbuttontomenu = quitbuttontomenu;
     }
+
+
 }

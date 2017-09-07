@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
@@ -23,8 +24,9 @@ public class Game extends Canvas implements Runnable {
 	public static final int HEIGHT = WIDTH/12*9;
 	public static final int SCALE = 2;
 	public final String TITLE = "SPACE SHOOTER GABRI-RICHI";
-	
-	
+
+
+
 	private boolean running = false;
 	private Thread thread;
 	
@@ -63,6 +65,7 @@ public class Game extends Canvas implements Runnable {
 
 
 	private static int score=0; //punteggio
+	private static int score2=0;
 
 
 
@@ -173,7 +176,6 @@ public class Game extends Canvas implements Runnable {
 			c.tick();
 
 			
-			
 		}
 		//se finiscono i nemici passo alla seconda ondata
 		if(enemy_killed >= enemy_count) {
@@ -186,13 +188,16 @@ public class Game extends Canvas implements Runnable {
 		//quando la vita finisce creare il nemu nel quale si vede il punteggio finale e ritornare al menu principale o uscire dal gioco
 
 		 if (health==0){
-			 this.Reset();
+			score2=score;
 			State=STATE.GAMEOVER;
+			this.Reset();
 		}
 		
 	
 	}
-	
+
+
+
 	//tutto ci� che viene renderizzato
 	private void render() {
 		//gestisce il buffering
@@ -238,6 +243,7 @@ public class Game extends Canvas implements Runnable {
 		else if (State == STATE.MENU) {
 			//qui disegno e creo il mio menu
 			menu.render(g);
+
 		}
 		if (State==STATE.GAMEOVER){
 			//creo il menu game over **da rivedere**
@@ -339,8 +345,12 @@ public class Game extends Canvas implements Runnable {
 	public static int getScore() {
 		return score;
 	}
+	public static int getScore2() {
+		return score2;
+	}
 
-	public  void setScore(int score) {
+
+	public static void setScore(int score) {
 		Game.score = score;
 	}
 	
@@ -353,7 +363,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	//Questo metodo mi riporta alle condizioni iniziali della mia prima ondata
-	 public void Reset() {
+	 public  void Reset() {
 		 //resetto vita e posizione
 		 health = 200;
 		 p.setVelX(0);

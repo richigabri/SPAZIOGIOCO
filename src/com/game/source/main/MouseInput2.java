@@ -4,10 +4,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-/**
- * Created by Utente on 24/08/2017.
- */
-public class MouseInput2  implements MouseListener {
+//GESTISCE IL GAME OVER MENU
+public class MouseInput2  implements MouseListener  {
     private Rectangle replaybutton;
     private Rectangle quitbuttontomenu;
 
@@ -17,6 +15,8 @@ public class MouseInput2  implements MouseListener {
         this.quitbuttontomenu = gameover.getQuitbuttontomenu();
 
     }
+
+
 
     @Override
      public void mouseClicked(MouseEvent e) {
@@ -35,6 +35,7 @@ public class MouseInput2  implements MouseListener {
             if (mx >= replaybutton.getX() && mx <= (replaybutton.getWidth() + replaybutton.getX())) {
                 if (my >= replaybutton.getY() && my <= (replaybutton.getY() +replaybutton.getHeight())) {
                     //Resettiamo le variabili e cambiamo lo stato
+
                     Game.State=Game.STATE.GAME; //torno allo State Game
                 }
             }

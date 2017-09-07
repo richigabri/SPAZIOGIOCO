@@ -16,7 +16,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 	private Game game;
 	private Controller c;
 	int score=0;
-	//variabile speed per la velocità dei nemici casuale
+	//variabile speed per la velocitï¿½ dei nemici casuale
 	private int speed = r.nextInt(3)+ 1;
 	
 	private Textures tex;
@@ -37,7 +37,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 		
 		if(y > (Game.HEIGHT * Game.SCALE)) {
 			y = 0;
-			//una volta che ripartono li rallento ma continuo a farli andare a una velocità random
+			//una volta che ripartono li rallento ma continuo a farli andare a una velocitï¿½ random
 			speed = r.nextInt(2)+ 1;
 			//DA CONTROLLARE PER FAR STARE TUTTA LA NAVE DENTRO ALLO SCHERMO
 			x = r.nextInt(Game.WIDTH * Game.SCALE - 40);	
@@ -46,7 +46,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 	
 		for (int i = 0; i < game.ef.size(); i++) {
 			
-			//Creo una entità temporanea e controllo che non collida col nemico
+			//Creo una entitï¿½ temporanea e controllo che non collida col nemico
 			EntityFriendly tempef = game.ef.get(i);
 			
 			//se il nemico tocca un friendly (proietile o nave) allora lo rimuovo
@@ -58,6 +58,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 				c.removeEntity(this);
 				//AGGIORNO le variabili di conseguenza
 				game.setEnemy_killed(game.getEnemy_killed() + 1);
+
 			} 
 					
 			//aggiorno lo score quando un nemico viene colpito dal proiettile
