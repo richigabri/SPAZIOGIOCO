@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Textures {
 	//texture che verranno usate dal gioco
-	public BufferedImage player, bullet, enemy;
+	public BufferedImage player,player2, bullet,bullet2, enemy;
 	BufferedImageLoader loader = new BufferedImageLoader();
 	
 	public Textures(Game game) {
@@ -21,9 +21,23 @@ public class Textures {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//carico immagine missile 
+
+		//carico immagine secondo giocatore
+		try {
+			player2 =  loader.loadImage("/playerShip1_red.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		//carico immagine missile  primo giocatore
 		try {
 			bullet =  loader.loadImage("/Lasers/laserBlue01.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//carico immagine missile per il secondo giocatore
+		try {
+			bullet2 =  loader.loadImage("/Lasers/laserGreen11.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -34,7 +34,7 @@ public class Bullet extends GameObject implements EntityFriendly {
 	public void render(Graphics g) {
 		g.drawImage(tex.bullet,  (int)x , (int)y, null);
 	}
-	
+
 	
 	//getter & setter
 	public double getX() {

@@ -72,6 +72,8 @@ public class MouseInput implements MouseListener {
 				if (my >= helpbutton.getY() && my <= (helpbutton.getY() + helpbutton.getHeight())) {
 					//aggungiamo delle informazioni e premiamo il bottone
                     JOptionPane.showMessageDialog(null,"Distruggi tutti gli alieni! \n Muoviti con le frecce o WASD \n Spara con la barra spaziatrice \n SCALA LA CLASSIFICA!","INFORMAZIONI",3);
+
+
 				}
 			}
 		}

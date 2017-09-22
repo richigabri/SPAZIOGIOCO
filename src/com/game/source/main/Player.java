@@ -71,6 +71,7 @@ public class Player extends GameObject implements EntityFriendly{
 	public void render(Graphics g) {
 		g.drawImage(tex.player, (int)x, (int)y, null);
 	}
+
 	
 	//GETTER & SETTER
 	

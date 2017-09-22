@@ -45,12 +45,16 @@ public class Game extends Canvas implements Runnable {
 	private int enemy_killed = 0;
 	private int wave = 0;
 	
-	private Player p;
-	
+	private Player p;//primo giocatore
+	private Player2 p2; //secondo giocatore
+
+
 	private Controller c;
 	private Textures tex;
 	private Menu menu;
 	private GameOver gameover;
+
+
 	
 	
 	//elenco di tutti gli elementi buoni e cattivi 
@@ -61,7 +65,8 @@ public class Game extends Canvas implements Runnable {
 	
 
 	//Barra dei punti vita della nostra nave, da lavorarci per aggiungere le vite
-	public static int health = 200; //punti vita del giocatore
+	public static int health = 200; //punti vita del  primo giocatore
+	public static int health2 = 200; // punti vita del secondo giocatore
 
 
 	private static int score=0; //punteggio
@@ -75,12 +80,13 @@ public class Game extends Canvas implements Runnable {
 	public static enum STATE{
 		MENU,
 		GAME,
-		GAMEOVER
+		GAMEOVER,
+
 		
 	};
 	//usiamo State per capire in quale situazione siamo, la inizializziamo al men� perch� il gioco all'avvio mostrer� il men�
 	public static STATE State = STATE.MENU;
-	
+
 	public void init() {
 		requestFocus();
 		/*	PER CARICARE LO SFONDO
@@ -93,7 +99,8 @@ public class Game extends Canvas implements Runnable {
 		//carichiamo le texture PRIMA della chiamata a player senn� non andrebbe
 		tex = new Textures(this);
 		c = new Controller(this, tex);
-		p = new Player(300, 400, tex, this, c);
+		p = new Player(150, 400, tex, this, c);
+		p2=new Player2(450, 400, tex, this, c);
 		menu = new Menu();
 		gameover=new GameOver();
 
@@ -173,6 +180,7 @@ public class Game extends Canvas implements Runnable {
 		//eseguo le azioni SOLO SE sono nello stato Game
 		if (State == STATE.GAME) {
 			p.tick();
+			p2.tick();
 			c.tick();
 
 			
@@ -187,7 +195,7 @@ public class Game extends Canvas implements Runnable {
 
 		//quando la vita finisce creare il nemu nel quale si vede il punteggio finale e ritornare al menu principale o uscire dal gioco
 
-		 if (health==0){
+		 if (health==0 && health2==0){
 			score2=score;
 			State=STATE.GAMEOVER;
 			this.Reset();
@@ -220,17 +228,22 @@ public class Game extends Canvas implements Runnable {
 		//Come prima, renderizzo SOLO se sono nello stato GAME
 		if(State == STATE.GAME) {
 			p.render(g);
+			p2.render(g);
 			c.render(g);
 			
 			//sfondo per far risaltare meglio i PV
 			g.setColor(Color.gray);
 			g.fillRect(5, 5, 200, 30);
-			//disegno la nostra barra dei punti vita
-			g.setColor(Color.green);
-			g.fillRect(5, 5, health, 30);
+			//disegno la nostra barra dei punti vita primo giocatore
+			g.setColor(Color.CYAN);
+			g.fillRect(5, 5, health, 15);
+			//disegno la barra dei punti vita per il secondo giocatore
+			g.setColor(Color.red);
+			g.fillRect(5, 25, health2, 15);
 			//bordino per distinguerla dallo sfondo
 			g.setColor(Color.white);
-			g.drawRect(5, 5, health, 30);
+			g.drawRect(5, 5, health, 15);
+			g.drawRect(5,25,health2,15);
 			//visualizzo lo score
 			g.drawString("SCORE: "+score ,270, 30);
 			//Visualizzo ondate e nemici rimasti
@@ -249,6 +262,10 @@ public class Game extends Canvas implements Runnable {
 			//creo il menu game over **da rivedere**
 			gameover.render(g);
 		}
+
+
+
+
 		
 		
 		//////////////////////////////////////////
@@ -260,25 +277,42 @@ public class Game extends Canvas implements Runnable {
 	//comandi via tastiera
 	public void keyPressed(KeyEvent e) {
 		int key= e.getKeyCode();
-		
+		// con le frecce muovo il player1 con le lettere (ASDW) muovo il player2
 		if (State == STATE.GAME) {
-			if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
+			if (key == KeyEvent.VK_LEFT) {
 				p.setVelX(-5);
 			}
-			if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
+			if ( key == KeyEvent.VK_A) {
+				p2.setVelX(-5);
+			}
+			if (key == KeyEvent.VK_RIGHT ) {
 				p.setVelX(5);
 			}
-			if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+			if (key == KeyEvent.VK_D) {
+				p2.setVelX(5);
+			}
+			if (key == KeyEvent.VK_UP ) {
 				p.setVelY(-5);
 			}
-			if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
+			if ( key == KeyEvent.VK_W) {
+				p2.setVelY(-5);
+			}
+			if (key == KeyEvent.VK_DOWN ) {
 				p.setVelY(5);
+			}
+			if ( key == KeyEvent.VK_S) {
+				p2.setVelY(5);
 			}
 			if (key == KeyEvent.VK_SPACE && !is_shooting) {
 				Sounds.playerShoot.play();
 				is_shooting = true;
 				c.addEntity(new Bullet(p.getX()+46, p.getY()-25, tex, this));//la navicella spara centrale
-			} 
+			}
+			if (key == KeyEvent.VK_R && !is_shooting) {
+				Sounds.playerShoot.play();
+				is_shooting = true;
+				c.addEntity(new Bullet2(p2.getX()+46, p2.getY()-25, tex, this));//la navicella spara centrale
+			}
 		}
 	}
 	
@@ -286,21 +320,36 @@ public class Game extends Canvas implements Runnable {
 		int key= e.getKeyCode();
 		
 		if (State == STATE.GAME) {
-			if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
+			if (key == KeyEvent.VK_LEFT ) {
 				p.setVelX(0);
 			}
-			if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
+			if ( key == KeyEvent.VK_A) {
+				p2.setVelX(0);
+			}
+			if (key == KeyEvent.VK_RIGHT ) {
 				p.setVelX(0);
 			}
-			if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+			if ( key == KeyEvent.VK_D) {
+				p2.setVelX(0);
+			}
+			if (key == KeyEvent.VK_UP ) {
 				p.setVelY(0);
 			}
-			if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
+			if ( key == KeyEvent.VK_W) {
+				p2.setVelY(0);
+			}
+			if (key == KeyEvent.VK_DOWN ) {
 				p.setVelY(0);
+			}
+			if ( key == KeyEvent.VK_S) {
+				p2.setVelY(0);
 			}
 			if (key == KeyEvent.VK_SPACE) {
 				is_shooting = false;
-			} 
+			}
+			if (key == KeyEvent.VK_R) {
+				is_shooting = false;
+			}
 		}
 	}
 	
