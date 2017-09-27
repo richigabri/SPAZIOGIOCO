@@ -12,13 +12,18 @@ public class MouseInput implements MouseListener {
 	private Rectangle quitbutton;
     private Rectangle helpbutton;
 
+    private Rectangle player1button;
+    private Rectangle player2button;
+
+
 	
 	//Costruttore
 	public MouseInput(Menu menu) {
 		this.playbutton = menu.getPlaybutton();
 		this.helpbutton = menu.getHelpbutton();
 		this.quitbutton = menu.getQuitbutton();
-
+		this.player1button=menu.getPlayer1();
+		this.player2button=menu.getPlayer2();
 	}
 
 
@@ -76,6 +81,18 @@ public class MouseInput implements MouseListener {
 
 				}
 			}
+			if (mx >= player1button.getX() && mx <= (player1button.getWidth() + player1button.getX())) {
+				if (my >= player1button.getY() && my <= (player1button.getY() + player1button.getHeight())) {
+
+					Game.flagplayer=1; //se 1 c'è un giocatore
+				}
+			}
+			if (mx >= player2button.getX() && mx <= (player2button.getWidth() + player2button.getX())) {
+				if (my >= player2button.getY() && my <= (player2button.getY() + player2button.getHeight())) {
+					Game.flagplayer=0;
+				}
+			}
+
 		}
 
 

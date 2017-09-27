@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Textures {
 	//texture che verranno usate dal gioco
-	public BufferedImage player,player2, bullet,bullet2, enemy;
+	public BufferedImage player,player2, bullet,bullet2, enemy,background,background2;
 	BufferedImageLoader loader = new BufferedImageLoader();
 	
 	public Textures(Game game) {
@@ -47,6 +47,13 @@ public class Textures {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			background =  loader.loadImage("/Background/background2.jpg");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
 	}
 	
 }

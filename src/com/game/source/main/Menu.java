@@ -14,8 +14,11 @@ public class Menu {
 	public Rectangle playbutton = new Rectangle(Game.WIDTH/2 + 120, 150, 100, 50);
 	public Rectangle helpbutton = new Rectangle(Game.WIDTH/2 + 120, 250, 100, 50);
 	public Rectangle quitbutton = new Rectangle(Game.WIDTH/2 + 120, 350, 100, 50);
-	
-	//Funzione con la quale disegno il menù
+	public Rectangle player2 = new Rectangle(Game.WIDTH/2 + 300, 150, 130, 50);
+	public Rectangle player1 = new Rectangle(Game.WIDTH/2 -100, 150, 130, 50);
+
+
+	//Funzione con la quale disegno il menï¿½
 	public void render(Graphics g) {
 		
 		//Cast a Graphics2D per disegnare il rettangolo
@@ -27,21 +30,62 @@ public class Menu {
 		g.setFont(fnt0);
 		g.setColor(Color.white);
 		
-		//scrivo ciò che ci sarà nel mio menù
+		//scrivo ciï¿½ che ci sarï¿½ nel mio menï¿½
 		g.drawString("SPAZIO GIOCO", Game.WIDTH / 2, 100);
-		
+
 		//Aggiungo le scritte e disegno le voci del mio menu
 		Font fnt1 = new Font("arial", Font.BOLD, 30);
 		g.setFont(fnt1);
-		// riempio le voci del mio menù modificando le x e le y perchè andrebbe a scrivere nell'angolo in alto a destra
+		// riempio le voci del mio menï¿½ modificando le x e le y perchï¿½ andrebbe a scrivere nell'angolo in alto a destra
 		g.drawString("Gioca", playbutton.x + 11, playbutton.y +35);
 		g.drawString("Aiuto", helpbutton.x + 15, helpbutton.y + 35);
 		g.drawString("Esci", quitbutton.x + 19, quitbutton.y + 35);
-		//disegno i bordi delle voci del menù
+
+		g.drawString("Player1", player1.x + 15, player1.y +35);
+		g.drawString("Player2", player2.x + 15, player2.y + 35);
+
+		//disegno i bordi delle voci del menï¿½
 		g2d.draw(playbutton);
 		g2d.draw(helpbutton);
 		g2d.draw(quitbutton);
+		g2d.draw(player1);
+		g2d.draw(player2);
+
+		//controllo il  flagplayer per evidenzare all'utente in quale modalitÃ  sta giocando
+
+		//impostazione di dafault : il pulsante player1 Ã¨ attivo(Colore Rosso)
+		if(Game.flagplayer==1){
+			Font fnt2 = new Font("arial", Font.BOLD, 30);
+			g.setFont(fnt2);
+			g.setColor(Color.RED);
+			g.fillRect(Game.WIDTH/2 -100, 150, 130, 50);
+			g.setColor(Color.WHITE);
+			g.drawString("Player1", player1.x + 15, player1.y +35);
+			g2d.draw(player1);
+
+		}
+		//se l'utente preme player2 il pulsante si attivera (colore rosso) e l'utente giochera in modalita 2 giocatori
+		if(Game.flagplayer==0){
+			Font fnt2 = new Font("arial", Font.BOLD, 30);
+			g.setFont(fnt2);
+			g.setColor(Color.RED);
+			g.fillRect(Game.WIDTH/2 + 300, 150, 130, 50);
+			g.setColor(Color.WHITE);
+			g.drawString("Player2", player2.x + 15, player2.y + 35);
+			g2d.draw(player2);
+
+
+		}
 		
+	}
+
+	public void Paint(Graphics g,double x,double y){
+		Graphics2D g2d =(Graphics2D) g;
+		g.drawString("Player1", player1.x + 15, player1.y +35);
+		g2d.draw(player1);
+		g2d.setColor(Color.RED);
+
+
 	}
 	
 	//Getters & Setters
@@ -49,7 +93,6 @@ public class Menu {
 	public Rectangle getPlaybutton() {
 		return playbutton;
 	}
-
 	public void setPlaybutton(Rectangle playbutton) {
 		this.playbutton = playbutton;
 	}
@@ -57,7 +100,6 @@ public class Menu {
 	public Rectangle getHelpbutton() {
 		return helpbutton;
 	}
-
 	public void setHelpbutton(Rectangle helpbutton) {
 		this.helpbutton = helpbutton;
 	}
@@ -65,9 +107,15 @@ public class Menu {
 	public Rectangle getQuitbutton() {
 		return quitbutton;
 	}
-
 	public void setQuitbutton(Rectangle quitbutton) {
 		this.quitbutton = quitbutton;
 	}
-	
+
+	public Rectangle getPlayer1() {return player1;}
+	public void setPlayer1(Rectangle player1) {this.player1 = player1;}
+
+	public Rectangle getPlayer2() {return player2;}
+	public void setPlayer2(Rectangle player2) {this.player2 = player2;}
+
+
 }

@@ -36,7 +36,7 @@ public class MouseInput2  implements MouseListener  {
                 if (my >= replaybutton.getY() && my <= (replaybutton.getY() +replaybutton.getHeight())) {
                     //Resettiamo le variabili e cambiamo lo stato
 
-                    Game.State=Game.STATE.GAME; //torno allo State Game
+                    Game.State=Game.STATE.MENU; //torno allo State Menu
                 }
             }
 

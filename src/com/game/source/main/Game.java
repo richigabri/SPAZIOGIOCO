@@ -65,14 +65,14 @@ public class Game extends Canvas implements Runnable {
 	
 
 	//Barra dei punti vita della nostra nave, da lavorarci per aggiungere le vite
-	public static int health = 200; //punti vita del  primo giocatore
-	public static int health2 = 200; // punti vita del secondo giocatore
+	public static int health =200; //punti vita del  primo giocatore
+	public static  int health2 = 200; // punti vita del secondo giocatore
 
 
 	private static int score=0; //punteggio
 	private static int score2=0;
 
-
+	public static int flagplayer=1;//flag per il numero di giocare (di default c'è solo un giocatore) 1=un giocare 0=2giocatori
 
 	/* Creazione del men� : vari stati in cui mi trovo
 	 * Nel nostro caso usiamo lo stato GAME quando sono in gioco e lo stato MENU quando sono nel men�, infine gameover quando ho perso
@@ -83,7 +83,7 @@ public class Game extends Canvas implements Runnable {
 		GAMEOVER,
 
 		
-	};
+	}
 	//usiamo State per capire in quale situazione siamo, la inizializziamo al men� perch� il gioco all'avvio mostrer� il men�
 	public static STATE State = STATE.MENU;
 
@@ -92,7 +92,7 @@ public class Game extends Canvas implements Runnable {
 		/*	PER CARICARE LO SFONDO
 		*	BufferedImageLoader loader = new BufferedImageLoader();
 		*/
-		
+
 		//Inizializzo la posizione
 		this.addKeyListener(new KeyInput(this));
 		
@@ -114,6 +114,7 @@ public class Game extends Canvas implements Runnable {
 		
 		//creo N nemici per ondata
 		c.createEnemy(enemy_count);
+
 	}
 	
 	//avvio gioco
@@ -179,29 +180,43 @@ public class Game extends Canvas implements Runnable {
 	private void tick() {
 		//eseguo le azioni SOLO SE sono nello stato Game
 		if (State == STATE.GAME) {
+
 			p.tick();
-			p2.tick();
+			if (flagplayer != 1) {
+				p2.tick();
+			}
 			c.tick();
 
-			
+
 		}
 		//se finiscono i nemici passo alla seconda ondata
-		if(enemy_killed >= enemy_count) {
-			wave += 1;	//Aumento l'ondata per indicare che ho superato il livello
-			enemy_count += 2;	//nel nostro gioco aggiungiamo 2 nemici ad ondata
-			enemy_killed = 0;	//reseettiamo il numero di kill
-			c.createEnemy(enemy_count);	//creiamo i nostri nuovi nemici
+		if (enemy_killed >= enemy_count) {
+			wave += 1;    //Aumento l'ondata per indicare che ho superato il livello
+			enemy_count += 2;    //nel nostro gioco aggiungiamo 2 nemici ad ondata
+			enemy_killed = 0;    //reseettiamo il numero di kill
+			c.createEnemy(enemy_count);    //creiamo i nostri nuovi nemici
 		}
 
 		//quando la vita finisce creare il nemu nel quale si vede il punteggio finale e ritornare al menu principale o uscire dal gioco
-
-		 if (health==0 && health2==0){
-			score2=score;
-			State=STATE.GAMEOVER;
-			this.Reset();
-		}
-		
-	
+		if (flagplayer == 1)
+			if (health <= 0) {
+				score2 = score;
+				State = STATE.GAMEOVER;
+				this.Reset();
+			}
+			if(flagplayer==0) {
+				if(health<=0){
+					//rimuovere la navicella 1
+				}
+				if(health2<=0){
+					//rimuovere la navicella 2
+				}
+				if (health <= 0 && health2 <= 0) {
+					score2 = score;
+					State = STATE.GAMEOVER;
+					this.Reset();
+				}
+			}
 	}
 
 
@@ -219,31 +234,37 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		
 		//////////////////////////////////////////
-		
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), this); //schermo nero di sfondo
-		
-		g.drawImage(background, 0, 0, null);
+
+		g.drawImage(tex.background, 0, 0, getWidth(), getHeight(), this); //schermo nero di sfondo
+
+        g.drawImage(background, 0, 0, null);
 		
 		
 		//Come prima, renderizzo SOLO se sono nello stato GAME
 		if(State == STATE.GAME) {
+
 			p.render(g);
-			p2.render(g);
+			if(flagplayer!=1){
+			p2.render(g);}
 			c.render(g);
-			
+
 			//sfondo per far risaltare meglio i PV
-			g.setColor(Color.gray);
-			g.fillRect(5, 5, 200, 30);
+			g.setColor(Color.GRAY);
+			if(flagplayer!=1){
+			g.fillRect(5, 5, 200, 30);}
+			g.fillRect(5,5,200,15);
 			//disegno la nostra barra dei punti vita primo giocatore
 			g.setColor(Color.CYAN);
 			g.fillRect(5, 5, health, 15);
 			//disegno la barra dei punti vita per il secondo giocatore
+			if(flagplayer!=1){
 			g.setColor(Color.red);
-			g.fillRect(5, 25, health2, 15);
+			g.fillRect(5, 25, health2, 15);}
 			//bordino per distinguerla dallo sfondo
 			g.setColor(Color.white);
 			g.drawRect(5, 5, health, 15);
-			g.drawRect(5,25,health2,15);
+			if(flagplayer!=1){
+			g.drawRect(5,25,health2,15);}
 			//visualizzo lo score
 			g.drawString("SCORE: "+score ,270, 30);
 			//Visualizzo ondate e nemici rimasti
@@ -255,6 +276,7 @@ public class Game extends Canvas implements Runnable {
 		} 
 		else if (State == STATE.MENU) {
 			//qui disegno e creo il mio menu
+
 			menu.render(g);
 
 		}
@@ -282,25 +304,25 @@ public class Game extends Canvas implements Runnable {
 			if (key == KeyEvent.VK_LEFT) {
 				p.setVelX(-5);
 			}
-			if ( key == KeyEvent.VK_A) {
+			if ( key == KeyEvent.VK_A && flagplayer!=1) {
 				p2.setVelX(-5);
 			}
 			if (key == KeyEvent.VK_RIGHT ) {
 				p.setVelX(5);
 			}
-			if (key == KeyEvent.VK_D) {
+			if (key == KeyEvent.VK_D && flagplayer!=1) {
 				p2.setVelX(5);
 			}
 			if (key == KeyEvent.VK_UP ) {
 				p.setVelY(-5);
 			}
-			if ( key == KeyEvent.VK_W) {
+			if ( key == KeyEvent.VK_W && flagplayer!=1) {
 				p2.setVelY(-5);
 			}
 			if (key == KeyEvent.VK_DOWN ) {
 				p.setVelY(5);
 			}
-			if ( key == KeyEvent.VK_S) {
+			if ( key == KeyEvent.VK_S && flagplayer!=1) {
 				p2.setVelY(5);
 			}
 			if (key == KeyEvent.VK_SPACE && !is_shooting) {
@@ -308,7 +330,7 @@ public class Game extends Canvas implements Runnable {
 				is_shooting = true;
 				c.addEntity(new Bullet(p.getX()+46, p.getY()-25, tex, this));//la navicella spara centrale
 			}
-			if (key == KeyEvent.VK_R && !is_shooting) {
+			if (key == KeyEvent.VK_R && !is_shooting && flagplayer!=1) {
 				Sounds.playerShoot.play();
 				is_shooting = true;
 				c.addEntity(new Bullet2(p2.getX()+46, p2.getY()-25, tex, this));//la navicella spara centrale
@@ -323,31 +345,31 @@ public class Game extends Canvas implements Runnable {
 			if (key == KeyEvent.VK_LEFT ) {
 				p.setVelX(0);
 			}
-			if ( key == KeyEvent.VK_A) {
+			if ( key == KeyEvent.VK_A && flagplayer!=1) {
 				p2.setVelX(0);
 			}
 			if (key == KeyEvent.VK_RIGHT ) {
 				p.setVelX(0);
 			}
-			if ( key == KeyEvent.VK_D) {
+			if ( key == KeyEvent.VK_D && flagplayer!=1) {
 				p2.setVelX(0);
 			}
 			if (key == KeyEvent.VK_UP ) {
 				p.setVelY(0);
 			}
-			if ( key == KeyEvent.VK_W) {
+			if ( key == KeyEvent.VK_W && flagplayer!=1) {
 				p2.setVelY(0);
 			}
 			if (key == KeyEvent.VK_DOWN ) {
 				p.setVelY(0);
 			}
-			if ( key == KeyEvent.VK_S) {
+			if ( key == KeyEvent.VK_S && flagplayer!=1) {
 				p2.setVelY(0);
 			}
 			if (key == KeyEvent.VK_SPACE) {
 				is_shooting = false;
 			}
-			if (key == KeyEvent.VK_R) {
+			if (key == KeyEvent.VK_R && flagplayer!=1) {
 				is_shooting = false;
 			}
 		}
@@ -414,10 +436,17 @@ public class Game extends Canvas implements Runnable {
 	//Questo metodo mi riporta alle condizioni iniziali della mia prima ondata
 	 public  void Reset() {
 		 //resetto vita e posizione
-		 health = 200;
+
+		 if(flagplayer==0){
+			 health = 200;
+			 health2 = 200;
+		 }
+		 else
+			 health = 200;
+
 		 p.setVelX(0);
 		 p.setVelY(0);
-		 p.setX(300);
+		 p.setX(150);//300
 		 p.setY(400);
 		 //resetto highscore e ondate
 		 this.setScore(0);
