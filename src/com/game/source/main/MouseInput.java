@@ -11,6 +11,7 @@ public class MouseInput implements MouseListener {
 	private Rectangle playbutton;
 	private Rectangle quitbutton;
     private Rectangle helpbutton;
+    private Rectangle scorebutton;
 
     private Rectangle player1button;
     private Rectangle player2button;
@@ -24,6 +25,7 @@ public class MouseInput implements MouseListener {
 		this.quitbutton = menu.getQuitbutton();
 		this.player1button=menu.getPlayer1();
 		this.player2button=menu.getPlayer2();
+		this.scorebutton=menu.getScorebutton();
 	}
 
 
@@ -81,6 +83,16 @@ public class MouseInput implements MouseListener {
 
 				}
 			}
+			//clicco su punteggi
+			if (mx >= scorebutton.getX() && mx <= (scorebutton.getWidth() + scorebutton.getX())) {
+				if (my >= scorebutton.getY() && my <= (scorebutton.getY() + scorebutton.getHeight())) {
+					//accediamo alla tabella dei punteggi
+					Game.State=Game.STATE.SCORE;
+				}
+			}
+			
+			
+			
 			if (mx >= player1button.getX() && mx <= (player1button.getWidth() + player1button.getX())) {
 				if (my >= player1button.getY() && my <= (player1button.getY() + player1button.getHeight())) {
 

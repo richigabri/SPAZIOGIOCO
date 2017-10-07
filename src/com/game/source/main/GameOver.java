@@ -32,10 +32,12 @@ public class GameOver extends Menu {
         g.setFont(fnt1);
 
         // riempio le voci del mio menï¿½ modificando le x e le y perchï¿½ andrebbe a scrivere nell'angolo in alto a destra
-        g.drawString("Rigioca", replaybutton.x + 11, replaybutton.y +35);
+        g.drawString("Menù", replaybutton.x + 11, replaybutton.y +35);
         g.drawString("Esci", quitbuttontomenu.x + 19, quitbuttontomenu.y + 35);
         g.drawString("IL TUO PUNTEGGIO E' : "+  getScore2(),140,300);
-
+        
+        
+        
         //disegno i bordi delle voci del menï¿½
         g2d.draw(replaybutton);
         g2d.draw(quitbuttontomenu);

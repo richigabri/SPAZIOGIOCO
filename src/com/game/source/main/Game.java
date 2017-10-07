@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
-
+import javax.swing.JOptionPane;
 
 import com.game.source.main.classes.EntityEnemy;
 import com.game.source.main.classes.EntityFriendly;
@@ -53,6 +53,7 @@ public class Game extends Canvas implements Runnable {
 	private Textures tex;
 	private Menu menu;
 	private GameOver gameover;
+	private ScoreMenu punteggi;
 
 
 	
@@ -81,7 +82,7 @@ public class Game extends Canvas implements Runnable {
 		MENU,
 		GAME,
 		GAMEOVER,
-
+		SCORE,
 		
 	}
 	//usiamo State per capire in quale situazione siamo, la inizializziamo al menï¿½ perchï¿½ il gioco all'avvio mostrerï¿½ il menï¿½
@@ -103,6 +104,7 @@ public class Game extends Canvas implements Runnable {
 		p2=new Player2(450, 400, tex, this, c);
 		menu = new Menu();
 		gameover=new GameOver();
+		punteggi=new ScoreMenu();
 
 		//passo le dimensioni del menï¿½ a MouseListener
 		this.addMouseListener(new MouseInput(menu));
@@ -202,6 +204,15 @@ public class Game extends Canvas implements Runnable {
 			if (health <= 0) {
 				score2 = score;
 				State = STATE.GAMEOVER;
+				//Se ho ottenuto un punteggio decente lo salvo
+				if (score>=HighScore.getHighScores()[9].getScore())
+				{
+					String name=JOptionPane.showInputDialog(null, "Complimenti, hai realizzato un record!\nInserisci il tuo nome.\n(Nota: verranno salvati solo 10 caratteri).",
+							"Tetris", JOptionPane.INFORMATION_MESSAGE);
+					//se il nome è valido inserisco il punteggio nel file
+					if (name!=null)
+						HighScore.addHighScore(new HighScore(score,(name.length()>10)?name.substring(0, 10):name));
+				}
 				this.Reset();
 			}
 			if(flagplayer==0) {
@@ -213,6 +224,15 @@ public class Game extends Canvas implements Runnable {
 				}
 				if (health <= 0 && health2 <= 0) {
 					score2 = score;
+					//Se ho ottenuto un punteggio decente lo salvo
+					if (score>=HighScore.getHighScores()[9].getScore())
+					{
+						String name=JOptionPane.showInputDialog(null, "Complimenti, hai realizzato un record!\nInserisci il tuo nome.\n(Nota: verranno salvati solo 10 caratteri).",
+								"Tetris", JOptionPane.INFORMATION_MESSAGE);
+						//se il nome è valido inserisco il punteggio nel file
+						if (name!=null)
+							HighScore.addHighScore(new HighScore(score,(name.length()>10)?name.substring(0, 10):name));
+					}
 					State = STATE.GAMEOVER;
 					this.Reset();
 				}
@@ -221,7 +241,7 @@ public class Game extends Canvas implements Runnable {
 
 
 
-	//tutto ciï¿½ che viene renderizzato
+	//tutto ciò che viene renderizzato
 	private void render() {
 		//gestisce il buffering
 		BufferStrategy bs = this.getBufferStrategy();
@@ -242,7 +262,7 @@ public class Game extends Canvas implements Runnable {
 		
 		//Come prima, renderizzo SOLO se sono nello stato GAME
 		if(State == STATE.GAME) {
-
+			
 			p.render(g);
 			if(flagplayer!=1){
 			p2.render(g);}
@@ -251,7 +271,7 @@ public class Game extends Canvas implements Runnable {
 			//sfondo per far risaltare meglio i PV
 			g.setColor(Color.GRAY);
 			if(flagplayer!=1){
-			g.fillRect(5, 5, 200, 30);}
+			g.fillRect(5, 5, 200, 35);}
 			g.fillRect(5,5,200,15);
 			//disegno la nostra barra dei punti vita primo giocatore
 			g.setColor(Color.CYAN);
@@ -280,6 +300,12 @@ public class Game extends Canvas implements Runnable {
 			menu.render(g);
 
 		}
+		else if (State == STATE.SCORE) {
+			
+			punteggi.render(g);
+		}
+		
+		
 		if (State==STATE.GAMEOVER){
 			//creo il menu game over **da rivedere**
 			gameover.render(g);
@@ -298,7 +324,7 @@ public class Game extends Canvas implements Runnable {
 	
 	//comandi via tastiera
 	public void keyPressed(KeyEvent e) {
-		int key= e.getKeyCode();
+		int key= e.getKeyCode();		
 		// con le frecce muovo il player1 con le lettere (ASDW) muovo il player2
 		if (State == STATE.GAME) {
 			if (key == KeyEvent.VK_LEFT) {
