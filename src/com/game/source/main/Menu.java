@@ -12,8 +12,8 @@ public class Menu {
 	 * I VALORI DENTRO A RECTANGLE SONO LE DIMENSIONI E LA POSIZIONE LUNGO GLI ASSI DEI MIEI BOTTONI 
 	 */
 	public Rectangle playbutton = new Rectangle(Game.WIDTH/2 + 120, 150, 100, 50);
-	public Rectangle helpbutton = new Rectangle(Game.WIDTH/2 + 50, 250, 130, 50);
-	public Rectangle scorebutton = new Rectangle(Game.WIDTH/2 + 200, 250, 130, 50);
+	public Rectangle helpbutton = new Rectangle(Game.WIDTH/2 +25, 250, 130, 50);
+	public Rectangle scorebutton = new Rectangle(Game.WIDTH/2 + 175, 250, 150, 50);
 	public Rectangle quitbutton = new Rectangle(Game.WIDTH/2 + 120, 350, 100, 50);
 	public Rectangle player2 = new Rectangle(Game.WIDTH/2 + 300, 150, 130, 50);
 	public Rectangle player1 = new Rectangle(Game.WIDTH/2 -100, 150, 130, 50);
@@ -40,7 +40,7 @@ public class Menu {
 		// riempio le voci del mio men� modificando le x e le y perch� andrebbe a scrivere nell'angolo in alto a destra
 		g.drawString("Gioca", playbutton.x + 11, playbutton.y +35);
 		g.drawString("Aiuto", helpbutton.x + 30, helpbutton.y + 35);
-		g.drawString("Punteggi", scorebutton.x + 1, scorebutton.y + 35);
+		g.drawString("Punteggi", scorebutton.x + 10, scorebutton.y + 35);
 		g.drawString("Esci", quitbutton.x + 19, quitbutton.y + 35);
 
 		g.drawString("Player1", player1.x + 15, player1.y +35);

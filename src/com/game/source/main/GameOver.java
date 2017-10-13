@@ -8,7 +8,7 @@ import static com.game.source.main.Game.getScore2;
 public class GameOver extends Menu {
 
 
-    public Rectangle replaybutton = new Rectangle(Game.WIDTH/2-120 , 150, 135, 50);
+    public Rectangle replaybutton = new Rectangle(Game.WIDTH/2-120 , 150, 100, 50);
 
     public Rectangle quitbuttontomenu = new Rectangle(Game.WIDTH/2 + 320, 150, 100, 50);
 
@@ -18,13 +18,14 @@ public class GameOver extends Menu {
         //Cast a Graphics2D per disegnare il rettangolo
         Graphics2D g2d = (Graphics2D) g;
 
-        //creo il font come mi pare e piace
+        //creo il font a mio piacimento 
         Font fnt0 = new Font("arial", Font.BOLD, 50);
+        
         //lo imposto come standard e imposto anche il colore
         g.setFont(fnt0);
         g.setColor(Color.white);
 
-        //scrivo ciï¿½ che ci sarï¿½ nel mio menï¿½
+        //scrivo ciò che ci sara nel mio menu gameover
             g.drawString("GAME OVER", Game.WIDTH / 2, 100);
 
         //Aggiungo le scritte e disegno le voci del mio menu

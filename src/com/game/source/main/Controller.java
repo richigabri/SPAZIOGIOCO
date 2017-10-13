@@ -66,10 +66,14 @@ public class Controller {
 		
 		//Per gli elementi di tipo Enemy
 		for (int i = 0; i < ee.size(); i++) {
+			
 			ente = ee.get(i);
 			
 			ente.render(g);
+					
+			
 		}
+    
 	}
 	
 	//lascio gli stessi nomi per semplicità tanto in base all''argomento passato il codice sa quale funzione chiamare

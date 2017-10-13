@@ -37,7 +37,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 		
 		if(y > (Game.HEIGHT * Game.SCALE)) {
 			y = 0;
-			//una volta che ripartono li rallento ma continuo a farli andare a una velocitï¿½ random
+			//una volta che ripartono li rallento ma continuo a farli andare a una velocità random
 			speed = r.nextInt(2)+ 1;
 			//DA CONTROLLARE PER FAR STARE TUTTA LA NAVE DENTRO ALLO SCHERMO
 			x = r.nextInt(Game.WIDTH * Game.SCALE - 40);	
@@ -46,16 +46,18 @@ public class Enemy extends GameObject implements EntityEnemy{
 	
 		for (int i = 0; i < game.ef.size(); i++) {
 			
-			//Creo una entitï¿½ temporanea e controllo che non collida col nemico
+			//Creo una entità temporanea e controllo che non collida col nemico
 			EntityFriendly tempef = game.ef.get(i);
 			
 			//se il nemico tocca un friendly (proietile o nave) allora lo rimuovo
 			if (Physics.Collision(this, tempef)) {
 				
 					Sounds.playerDeath.play(); //suono quando il nemico muore
+					
 				//RIMUOVO sia il proiettile che il nemico se collidono
 				c.removeEntity(tempef);
 				c.removeEntity(this);
+				
 				//AGGIORNO le variabili di conseguenza
 				game.setEnemy_killed(game.getEnemy_killed() + 1);
 
@@ -75,6 +77,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 	public void render(Graphics g) {
 		g.drawImage(tex.enemy, (int)x, (int)y, null);
 	}
+	
 	
 	//per le collisioni, funzione che crea il bordo
 	public Rectangle getBounds() {

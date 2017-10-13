@@ -54,7 +54,7 @@ public class Player2 extends GameObject implements EntityFriendly {
             if(Physics.Collision(this, tempee)) {
                 Sounds.playerDeath.play();//suono quando la nave colpisce i nemici
                 controller.removeEntity(tempee);
-                Game.health2 -= 10;
+                Game.health -= 10;
 
 
 

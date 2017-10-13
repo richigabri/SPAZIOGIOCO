@@ -17,14 +17,14 @@ public class Textures {
 	private void getTextures() {
 		//carico immagine giocatore
 		try {
-			player =  loader.loadImage("/playerShip1_blue.png");
+			player =  loader.loadImage("/playerShip3_blue.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		//carico immagine secondo giocatore
 		try {
-			player2 =  loader.loadImage("/playerShip1_red.png");
+			player2 =  loader.loadImage("/playerShip3_red.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,17 +42,22 @@ public class Textures {
 			e.printStackTrace();
 		}
 		//carico immagine nemico
+		
 		try {
-			enemy =  loader.loadImage("/Enemies/enemyBlack2.png");
+			enemy =  loader.loadImage("/Enemies/enemyGreen4.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			background =  loader.loadImage("/Background/background2.jpg");
+			background =  loader.loadImage("/Background/spacebackground.jpg");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		try {
+			background2 =  loader.loadImage("/Background/Parallax100.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 	

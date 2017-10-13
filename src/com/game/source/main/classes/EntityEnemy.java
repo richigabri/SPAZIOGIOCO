@@ -15,6 +15,7 @@ public interface EntityEnemy {
 	//funzioni per movimento e per render grafico dell'oggetto
 	public void tick();
 	public void render (Graphics g);
+	
 	public Rectangle getBounds();
 	
 	//funzioni per sapere dove si trova il mio oggetto lungo l'asse cartesiano

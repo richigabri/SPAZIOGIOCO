@@ -67,6 +67,7 @@ public class Game extends Canvas implements Runnable {
 
 	//Barra dei punti vita della nostra nave, da lavorarci per aggiungere le vite
 	public static int health =200; //punti vita del  primo giocatore
+
 	public static  int health2 = 200; // punti vita del secondo giocatore
 
 
@@ -109,6 +110,7 @@ public class Game extends Canvas implements Runnable {
 		//passo le dimensioni del menï¿½ a MouseListener
 		this.addMouseListener(new MouseInput(menu));
 		this.addMouseListener(new MouseInput2(gameover));
+		this.addMouseListener(new ScoreMenu());
 		
 		//Inizializzo le liste di amici e nemici
 		ef = c.getEntityFriendly();
@@ -170,7 +172,7 @@ public class Game extends Canvas implements Runnable {
 			
 			if ((System.currentTimeMillis() - timer) > 1000) {
 				timer += 1000;
-				System.out.println(updates + "Ticks, Fps" + frames);
+				//System.out.println(updates + "Ticks, Fps" + frames);
 				updates = 0;
 				frames = 0;
 			}
@@ -178,7 +180,7 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 	
-	//tutto ciï¿½ che viene aggiornato
+	//tutto cicli che viene aggiornato
 	private void tick() {
 		//eseguo le azioni SOLO SE sono nello stato Game
 		if (State == STATE.GAME) {
@@ -209,27 +211,22 @@ public class Game extends Canvas implements Runnable {
 				{
 					String name=JOptionPane.showInputDialog(null, "Complimenti, hai realizzato un record!\nInserisci il tuo nome.\n(Nota: verranno salvati solo 10 caratteri).",
 							"Tetris", JOptionPane.INFORMATION_MESSAGE);
-					//se il nome è valido inserisco il punteggio nel file
+					//se il nome ï¿½ valido inserisco il punteggio nel file
 					if (name!=null)
 						HighScore.addHighScore(new HighScore(score,(name.length()>10)?name.substring(0, 10):name));
 				}
 				this.Reset();
 			}
 			if(flagplayer==0) {
-				if(health<=0){
-					//rimuovere la navicella 1
-				}
-				if(health2<=0){
-					//rimuovere la navicella 2
-				}
-				if (health <= 0 && health2 <= 0) {
+				
+				if (health <= 0 || health2 <= 0) {
 					score2 = score;
 					//Se ho ottenuto un punteggio decente lo salvo
 					if (score>=HighScore.getHighScores()[9].getScore())
 					{
 						String name=JOptionPane.showInputDialog(null, "Complimenti, hai realizzato un record!\nInserisci il tuo nome.\n(Nota: verranno salvati solo 10 caratteri).",
 								"Tetris", JOptionPane.INFORMATION_MESSAGE);
-						//se il nome è valido inserisco il punteggio nel file
+						//se il nome ï¿½ valido inserisco il punteggio nel file
 						if (name!=null)
 							HighScore.addHighScore(new HighScore(score,(name.length()>10)?name.substring(0, 10):name));
 					}
@@ -241,7 +238,7 @@ public class Game extends Canvas implements Runnable {
 
 
 
-	//tutto ciò che viene renderizzato
+	//tutto ciï¿½ che viene renderizzato
 	private void render() {
 		//gestisce il buffering
 		BufferStrategy bs = this.getBufferStrategy();
@@ -255,36 +252,45 @@ public class Game extends Canvas implements Runnable {
 		
 		//////////////////////////////////////////
 
-		g.drawImage(tex.background, 0, 0, getWidth(), getHeight(), this); //schermo nero di sfondo
+		g.drawImage(tex.background, 0, 0, getWidth(), getHeight(), this); //schermo con disegno
 
         g.drawImage(background, 0, 0, null);
 		
 		
 		//Come prima, renderizzo SOLO se sono nello stato GAME
 		if(State == STATE.GAME) {
-			
+
+			g.drawImage(tex.background2, 0, 0, getWidth(), getHeight(), this);
+			g.drawImage(background, 0, 0, null);
 			p.render(g);
 			if(flagplayer!=1){
 			p2.render(g);}
+			
 			c.render(g);
 
 			//sfondo per far risaltare meglio i PV
 			g.setColor(Color.GRAY);
 			if(flagplayer!=1){
-			g.fillRect(5, 5, 200, 35);}
-			g.fillRect(5,5,200,15);
+			g.fillRect(5, 5, 200, 25);}
+			
+			g.fillRect(5,5,200,25);
+			
 			//disegno la nostra barra dei punti vita primo giocatore
 			g.setColor(Color.CYAN);
-			g.fillRect(5, 5, health, 15);
-			//disegno la barra dei punti vita per il secondo giocatore
+			g.fillRect(5, 5, health, 25);
+			
+			/*disegno la barra dei punti vita per il secondo giocatore
 			if(flagplayer!=1){
 			g.setColor(Color.red);
-			g.fillRect(5, 25, health2, 15);}
+			g.fillRect(5, 25, health2, 15);
+			}*/
 			//bordino per distinguerla dallo sfondo
 			g.setColor(Color.white);
-			g.drawRect(5, 5, health, 15);
-			if(flagplayer!=1){
+			g.drawRect(5, 5, health, 25);
+			
+			/*if(flagplayer!=1){
 			g.drawRect(5,25,health2,15);}
+			*/
 			//visualizzo lo score
 			g.drawString("SCORE: "+score ,270, 30);
 			//Visualizzo ondate e nemici rimasti
@@ -295,7 +301,7 @@ public class Game extends Canvas implements Runnable {
 			
 		} 
 		else if (State == STATE.MENU) {
-			//qui disegno e creo il mio menu
+			//menu principale
 
 			menu.render(g);
 
@@ -311,21 +317,19 @@ public class Game extends Canvas implements Runnable {
 			gameover.render(g);
 		}
 
-
-
-
 		
-		
-		//////////////////////////////////////////
-		//TUTTO ciï¿½ tra i commenti verrï¿½ resettato una volta qui
+		//************************************/
+		//TUTTO ciò tra i commenti verrà  resettato una volta qui
 		g.dispose();
 		bs.show();
 	}
 	
 	//comandi via tastiera
+	
 	public void keyPressed(KeyEvent e) {
 		int key= e.getKeyCode();		
 		// con le frecce muovo il player1 con le lettere (ASDW) muovo il player2
+		
 		if (State == STATE.GAME) {
 			if (key == KeyEvent.VK_LEFT) {
 				p.setVelX(-5);
@@ -460,6 +464,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	//Questo metodo mi riporta alle condizioni iniziali della mia prima ondata
+	
 	 public  void Reset() {
 		 //resetto vita e posizione
 
@@ -474,11 +479,13 @@ public class Game extends Canvas implements Runnable {
 		 p.setVelY(0);
 		 p.setX(150);//300
 		 p.setY(400);
+		 
 		 //resetto highscore e ondate
 		 this.setScore(0);
 		 this.setEnemy_count(0);
 		 this.setEnemy_killed(0);
 		 this.setWave(0);
+		 
 		 //pulisco il campo di battaglia dai nemici
 		 ee.clear();
 	 }

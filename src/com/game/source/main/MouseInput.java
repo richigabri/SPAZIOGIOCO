@@ -78,7 +78,7 @@ public class MouseInput implements MouseListener {
 			if (mx >= helpbutton.getX() && mx <= (helpbutton.getWidth() + helpbutton.getX())) {
 				if (my >= helpbutton.getY() && my <= (helpbutton.getY() + helpbutton.getHeight())) {
 					//aggungiamo delle informazioni e premiamo il bottone
-                    JOptionPane.showMessageDialog(null,"Distruggi tutti gli alieni! \n Muoviti con le frecce o WASD \n Spara con la barra spaziatrice \n SCALA LA CLASSIFICA!","INFORMAZIONI",3);
+                    JOptionPane.showMessageDialog(null,"Distruggi tutti gli alieni! \n- Muoviti con le frecce e Spara con la barra spaziatrice per Player 1\n- Muoviti con WASD e Spara con R per Player 2 \n SCALA LA CLASSIFICA!","INFORMAZIONI",3);
 
 
 				}
