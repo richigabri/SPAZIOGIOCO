@@ -30,8 +30,6 @@ public class Game extends Canvas implements Runnable {
 	private boolean running = false;
 	private Thread thread;
 	
-	//buffer immagini e sfondo
-	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,BufferedImage.TYPE_INT_RGB);
 	/* METODO INIZIALE CON SPRITESHEET tengo per sciurezza
 	 * private BufferedImage spriteSheet = null;
 	 */
@@ -210,7 +208,7 @@ public class Game extends Canvas implements Runnable {
 				if (score>=HighScore.getHighScores()[9].getScore())
 				{
 					String name=JOptionPane.showInputDialog(null, "Complimenti, hai realizzato un record!\nInserisci il tuo nome.\n(Nota: verranno salvati solo 10 caratteri).",
-							"Tetris", JOptionPane.INFORMATION_MESSAGE);
+							"Spazio Gioco", JOptionPane.INFORMATION_MESSAGE);
 					//se il nome � valido inserisco il punteggio nel file
 					if (name!=null)
 						HighScore.addHighScore(new HighScore(score,(name.length()>10)?name.substring(0, 10):name));
@@ -225,7 +223,7 @@ public class Game extends Canvas implements Runnable {
 					if (score>=HighScore.getHighScores()[9].getScore())
 					{
 						String name=JOptionPane.showInputDialog(null, "Complimenti, hai realizzato un record!\nInserisci il tuo nome.\n(Nota: verranno salvati solo 10 caratteri).",
-								"Tetris", JOptionPane.INFORMATION_MESSAGE);
+								"Record Gioco", JOptionPane.INFORMATION_MESSAGE);
 						//se il nome � valido inserisco il punteggio nel file
 						if (name!=null)
 							HighScore.addHighScore(new HighScore(score,(name.length()>10)?name.substring(0, 10):name));

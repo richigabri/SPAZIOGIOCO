@@ -26,16 +26,16 @@ public class ScoreMenu implements MouseListener{
 		g2.setFont(new Font("Arial", Font.BOLD, 30));
 		g2.drawString("HIGH SCORES", 200 , 40);
 		g2.setFont(new Font("Arial", Font.BOLD, 24));
-		g2.drawString("Nome", 80 , 80);
-		g2.drawString("Punteggio", 300, 80);
-		g2.drawLine(0, 100, 600, 100);
+		g2.drawString("Nome", 80 , 70);
+		g2.drawString("Punteggio", 300, 70);
+		g2.drawLine(0, 90, 600, 90);
 		g2.setFont(new Font("Arial", Font.BOLD, 22));
 		for (int i=0; i<h.length; i++)
 			if (h[i].getScore()>0)
 			{
-				g2.drawString(new Integer(i+1).toString()+".", 15, 120+i*45);
-				g2.drawString(h[i].getName(), 80, 120+i*45);
-				g2.drawString(new Integer(h[i].getScore()).toString(), 300, 120+i*45);
+				g2.drawString(new Integer(i+1).toString()+".", 15, 120+i*35);
+				g2.drawString(h[i].getName(), 80, 120+i*35);
+				g2.drawString(new Integer(h[i].getScore()).toString(), 300, 120+i*35);
 			}
 		
 		//Bottone per tornare indietro

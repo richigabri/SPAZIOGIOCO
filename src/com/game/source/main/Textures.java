@@ -49,7 +49,7 @@ public class Textures {
 			e.printStackTrace();
 		}
 		try {
-			background =  loader.loadImage("/Background/spacebackground.jpg");
+			background =  loader.loadImage("/Background/Black Space wallpaper 98692.jpg");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
