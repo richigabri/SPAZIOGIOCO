@@ -65,7 +65,6 @@ public class Game extends Canvas implements Runnable {
 
 	//Barra dei punti vita della nostra nave, da lavorarci per aggiungere le vite
 	public static int health =200; //punti vita del  primo giocatore
-
 	public static  int health2 = 200; // punti vita del secondo giocatore
 
 
@@ -269,26 +268,28 @@ public class Game extends Canvas implements Runnable {
 			//sfondo per far risaltare meglio i PV
 			g.setColor(Color.GRAY);
 			if(flagplayer!=1){
-			g.fillRect(5, 5, 200, 25);}
+			g.fillRect(5, 5, 200, 30);
+			}
 			
-			g.fillRect(5,5,200,25);
+			g.fillRect(5,5,200,15);
 			
 			//disegno la nostra barra dei punti vita primo giocatore
 			g.setColor(Color.CYAN);
-			g.fillRect(5, 5, health, 25);
+			g.fillRect(5, 5, health, 15);
 			
-			/*disegno la barra dei punti vita per il secondo giocatore
+			//disegno la barra dei punti vita per il secondo giocatore
 			if(flagplayer!=1){
 			g.setColor(Color.red);
-			g.fillRect(5, 25, health2, 15);
-			}*/
+			g.fillRect(5, 20, health2, 15);
+			}
 			//bordino per distinguerla dallo sfondo
 			g.setColor(Color.white);
-			g.drawRect(5, 5, health, 25);
+			g.drawRect(5, 5, health, 15);
 			
-			/*if(flagplayer!=1){
-			g.drawRect(5,25,health2,15);}
-			*/
+			if(flagplayer!=1){
+			g.drawRect(5,20,health2,15);
+		}
+			
 			//visualizzo lo score
 			g.drawString("SCORE: "+score ,270, 30);
 			//Visualizzo ondate e nemici rimasti
@@ -472,11 +473,19 @@ public class Game extends Canvas implements Runnable {
 		 }
 		 else
 			 health = 200;
-
+		 
+		 //parametri del primo giocatore
 		 p.setVelX(0);
 		 p.setVelY(0);
 		 p.setX(150);//300
 		 p.setY(400);
+		 
+		 //parametri secondo giocatore
+		 p2.setVelX(0);
+		 p2.setVelY(0);
+		 p2.setX(450);
+		 p2.setY(400);
+		 
 		 
 		 //resetto highscore e ondate
 		 this.setScore(0);
