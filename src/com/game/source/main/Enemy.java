@@ -12,11 +12,13 @@ public class Enemy extends GameObject implements EntityEnemy{
 	//coordinate e texture + RANDOM per il riposizionamento casuale
 	private double x, y;
 	Random r = new Random();
+	
 	//game e controller per controllare se il nemico viene colpito
 	private Game game;
 	private Controller c;
 	int score=0;
-	//variabile speed per la velocitï¿½ dei nemici casuale
+	
+	//variabile speed per la velocità dei nemici casuale
 	private int speed = r.nextInt(3)+ 1;
 	
 	private Textures tex;
@@ -24,6 +26,7 @@ public class Enemy extends GameObject implements EntityEnemy{
 	public Enemy(double x, double y, Textures tex, Controller c, Game game) {
 		//creatore
 		super(x,y);	//USO I dati del costruttore in GameObject
+		
 		//inizializzo la nave a una posizione random dentro alla mia griglia di gioco
 		this.x = r.nextInt(Game.WIDTH * Game.SCALE - 40);
 		this.tex=tex;

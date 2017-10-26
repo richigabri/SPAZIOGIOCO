@@ -9,8 +9,7 @@ public class Sounds {
 	public static final Sounds playerDeath = new Sounds("/Audio/bossdeath.wav");
 	public static final Sounds enemyDeath = new Sounds("/Audio/death.wav");
 	public static final Sounds gameMusic = new Sounds("/Audio/gamemusic.wav");
-	public static final Sounds levelUp = new Sounds("/Audio/levelup.wav");
-	public static final Sounds powerup = new Sounds("/Audio/powerup.wav");
+	
 	
 	private AudioClip clip;
 	

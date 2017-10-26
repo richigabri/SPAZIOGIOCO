@@ -26,9 +26,11 @@ public class Player extends GameObject implements EntityFriendly{
 	
 	public void tick() {
 
+		//velocità navetta per la pressione dei tasti
 		x += velX;
 		y += velY;
 		
+		//evito collisioni con il bordo dello schermo
 		if (x <= 0) {
 			x = 0;
 		}

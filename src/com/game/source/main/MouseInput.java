@@ -96,7 +96,7 @@ public class MouseInput implements MouseListener {
 			if (mx >= player1button.getX() && mx <= (player1button.getWidth() + player1button.getX())) {
 				if (my >= player1button.getY() && my <= (player1button.getY() + player1button.getHeight())) {
 
-					Game.flagplayer=1; //se 1 c'├и un giocatore
+					Game.flagplayer=1; //se 1 c'ши un giocatore
 				}
 			}
 			if (mx >= player2button.getX() && mx <= (player2button.getWidth() + player2button.getX())) {

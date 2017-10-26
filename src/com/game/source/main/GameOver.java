@@ -32,7 +32,7 @@ public class GameOver extends Menu {
         Font fnt1 = new Font("arial", Font.BOLD, 30);
         g.setFont(fnt1);
 
-        // riempio le voci del mio menï¿½ modificando le x e le y perchï¿½ andrebbe a scrivere nell'angolo in alto a destra
+        // riempio le voci del mio menù modificando le x e le y perchï¿½ andrebbe a scrivere nell'angolo in alto a destra
         g.drawString("Menù", replaybutton.x + 11, replaybutton.y +35);
         g.drawString("Esci", quitbuttontomenu.x + 19, quitbuttontomenu.y + 35);
         g.drawString("IL TUO PUNTEGGIO E' : "+  getScore2(),140,300);

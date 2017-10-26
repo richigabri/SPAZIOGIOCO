@@ -5,9 +5,7 @@ import com.game.source.main.classes.EntityFriendly;
 
 import java.awt.*;
 
-/**
- * Created by Utente on 22/09/2017.
- */
+
 public class Player2 extends GameObject implements EntityFriendly {
 
     //assi direzionali e velocit�

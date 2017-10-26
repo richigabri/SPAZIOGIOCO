@@ -1,20 +1,10 @@
 package com.game.source.main;
 	
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
 
-public class ScoreMenu implements MouseListener{
+public class ScoreMenu extends Menu{
 	
-	private Rectangle backbutton = new Rectangle(500, 400, 80, 25);
-	
-	public ScoreMenu() {
-		
-	}
+	public Rectangle backbutton = new Rectangle(500, 400, 80, 25);
 
 	public void render (Graphics g) {
 		//cast a Graphics2D per disegnare il menù
@@ -43,21 +33,6 @@ public class ScoreMenu implements MouseListener{
 		g2.drawString("indietro", backbutton.x + 5, backbutton.y + 20);
 		g2.draw(backbutton);
 	}	
-		
-	public void mousePressed(MouseEvent e) 
-	{
-		//creo due valori che sono le coordinate del mouse quando viene cliccato Sx
-		int mx = e.getX();
-		int my = e.getY();
-		
-		if (mx >= backbutton.getX() && mx <= (backbutton.getWidth() + backbutton.getX())) {
-			if (my >= backbutton.getY() && my <= (backbutton.getY() + backbutton.getHeight())) {
-				//accediamo alla tabella dei punteggi
-				Game.State=Game.STATE.MENU;
-				
-			}
-		}
-	}
 
 	public Rectangle getBackbutton() {
 		return backbutton;
@@ -67,28 +42,7 @@ public class ScoreMenu implements MouseListener{
 		this.backbutton = backbutton;
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 	
 }

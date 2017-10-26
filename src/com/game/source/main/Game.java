@@ -30,9 +30,7 @@ public class Game extends Canvas implements Runnable {
 	private boolean running = false;
 	private Thread thread;
 	
-	/* METODO INIZIALE CON SPRITESHEET tengo per sciurezza
-	 * private BufferedImage spriteSheet = null;
-	 */
+	
 	private BufferedImage background = null;
 	
 	//flag per glitch comandi
@@ -73,8 +71,8 @@ public class Game extends Canvas implements Runnable {
 
 	public static int flagplayer=1;//flag per il numero di giocare (di default c'Ã¨ solo un giocatore) 1=un giocare 0=2giocatori
 
-	/* Creazione del menï¿½ : vari stati in cui mi trovo
-	 * Nel nostro caso usiamo lo stato GAME quando sono in gioco e lo stato MENU quando sono nel menï¿½, infine gameover quando ho perso
+	/* Creazione del menù: vari stati in cui mi trovo
+	 * Nel nostro caso usiamo lo stato GAME quando sono in gioco e lo stato MENU quando sono nel menï¿½, score quando esamino i punteggi e infine gameover quando ho perso
 	 */
 	public static enum STATE{
 		MENU,
@@ -83,7 +81,7 @@ public class Game extends Canvas implements Runnable {
 		SCORE,
 		
 	}
-	//usiamo State per capire in quale situazione siamo, la inizializziamo al menï¿½ perchï¿½ il gioco all'avvio mostrerï¿½ il menï¿½
+	//usiamo State per capire in quale situazione siamo, la inizializziamo al menï¿½ perchï¿½ il gioco all'avvio mostrerà il menù
 	public static STATE State = STATE.MENU;
 
 	public void init() {
@@ -107,7 +105,7 @@ public class Game extends Canvas implements Runnable {
 		//passo le dimensioni del menï¿½ a MouseListener
 		this.addMouseListener(new MouseInput(menu));
 		this.addMouseListener(new MouseInput2(gameover));
-		this.addMouseListener(new ScoreMenu());
+		this.addMouseListener(new MouseInput3(punteggi));
 		
 		//Inizializzo le liste di amici e nemici
 		ef = c.getEntityFriendly();
@@ -168,8 +166,9 @@ public class Game extends Canvas implements Runnable {
 			frames++;
 			
 			if ((System.currentTimeMillis() - timer) > 1000) {
-				timer += 1000;
-				//System.out.println(updates + "Ticks, Fps" + frames);
+				timer += 1000;				
+				//Scrivo su console come sta andando il gioco
+				System.out.println(updates + "Ticks, Fps" + frames);
 				updates = 0;
 				frames = 0;
 			}
@@ -183,9 +182,11 @@ public class Game extends Canvas implements Runnable {
 		if (State == STATE.GAME) {
 
 			p.tick();
+			
 			if (flagplayer != 1) {
 				p2.tick();
 			}
+			
 			c.tick();
 
 
@@ -251,7 +252,7 @@ public class Game extends Canvas implements Runnable {
 
 		g.drawImage(tex.background, 0, 0, getWidth(), getHeight(), this); //schermo con disegno
 
-        g.drawImage(background, 0, 0, null);
+       
 		
 		
 		//Come prima, renderizzo SOLO se sono nello stato GAME
@@ -288,7 +289,7 @@ public class Game extends Canvas implements Runnable {
 			
 			if(flagplayer!=1){
 			g.drawRect(5,20,health2,15);
-		}
+			}
 			
 			//visualizzo lo score
 			g.drawString("SCORE: "+score ,270, 30);
@@ -497,14 +498,6 @@ public class Game extends Canvas implements Runnable {
 		 ee.clear();
 	 }
 	 
-	/*	PROVO A CANCELLARE PER AVERE L'IMMAGINE DELL'OGGETTO DENTRO OGNI CLASSE
-	public BufferedImage getSpriteSheet() {
-		return spriteSheet;
-	}
-
-	public void setSpriteSheet(BufferedImage spriteSheet) {
-		this.spriteSheet = spriteSheet;
-	} 
-	*/
+	
 	
 }

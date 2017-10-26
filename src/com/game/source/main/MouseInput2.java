@@ -29,12 +29,12 @@ public class MouseInput2  implements MouseListener  {
         int mx = e.getX();
         int my = e.getY();
 
-        //l'intenzione è che quando si prema il bottone rigioca parta ddi nuovo il gioco senz passare dal menu principale
+        //l'intenzione è che quando si prema il bottone si passa dal men� principale
         if(Game.State == Game.STATE.GAMEOVER){
 
             if (mx >= replaybutton.getX() && mx <= (replaybutton.getWidth() + replaybutton.getX())) {
                 if (my >= replaybutton.getY() && my <= (replaybutton.getY() +replaybutton.getHeight())) {
-                    //Resettiamo le variabili e cambiamo lo stato
+                    //Cambiamo lo stato
 
                     Game.State=Game.STATE.MENU; //torno allo State Menu
                 }
@@ -43,7 +43,7 @@ public class MouseInput2  implements MouseListener  {
             //Esce dal gioco dopo esser stato nel menu di Game Over
             if (mx >= quitbuttontomenu.getX() && mx <= (quitbuttontomenu.getWidth() + quitbuttontomenu.getX())) {
                 if (my >= quitbuttontomenu.getY() && my <= (quitbuttontomenu.getY() +quitbuttontomenu.getHeight())) {
-                    ////Usciamo dal gioco con il codice di errore
+                    //Usciamo dal gioco con il codice di errore
                     System.exit(1);
                 }
             }

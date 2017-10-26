@@ -46,7 +46,7 @@ public class Menu {
 		g.drawString("Player1", player1.x + 15, player1.y +35);
 		g.drawString("Player2", player2.x + 15, player2.y + 35);
 
-		//disegno i bordi delle voci del menï¿½
+		//disegno i bordi delle voci del menù
 		g2d.draw(playbutton);
 		g2d.draw(helpbutton);
 		g2d.draw(scorebutton);
@@ -81,7 +81,8 @@ public class Menu {
 		}
 		
 	}
-
+	
+	// Inizializzo il flag a player1 e quindi coloro il bottone corrispondente
 	public void Paint(Graphics g,double x,double y){
 		Graphics2D g2d =(Graphics2D) g;
 		g.drawString("Player1", player1.x + 15, player1.y +35);
