@@ -1,6 +1,0 @@
-1- Come evitare bug quando si cambia direzione rapidamente
-2- Metodo corretto di passare le dimensioni della nostra texture all'entità physics per le collisioni
-	(Quello attuale sono variabili pubbliche nelle classi che possono creare confusione a lungo termine)
-3- Implementare High Score (base fatta, manca il modo di visualizzarlo a fine partita e da inserire i punti)
-4- Manca la sezione HELP con i controlli
-5- Manca da allacciare la classe Sounds (suoni già caricati e pronti, funzionano testati da un altro gioco)
